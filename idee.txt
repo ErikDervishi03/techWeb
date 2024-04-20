@@ -5,3 +5,12 @@ idee per to do list:
 4)aggiungere un campo per la priorità
 5)aggiungere un campo per la categoria/etichetta
 6)colori per le categorie
+
+
+
+Scheme: 
+-Oggetto
+-Data inizio
+-Data fine
+-Priorita'
+-Categoria
