@@ -1,0 +1,7 @@
+idee per to do list:
+1)scelta utente per data inizio e fine
+2)nota eliminabile
+3)tasto per eliminare tutte le note
+4)aggiungere un campo per la priorità
+5)aggiungere un campo per la categoria/etichetta
+6)colori per le categorie
