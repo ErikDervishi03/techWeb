@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ErikDervishi03/techWeb/issues"
   },
-  "homepage": "https://github.com/ErikDervishi03/techWeb#readme"
+  "homepage": "https://github.com/ErikDervishi03/techWeb#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
