@@ -42,6 +42,28 @@ app.get("/", async (req, res) => {
 });
 
 
+app.get("/compose", (req, res) => {
+    const today = new Date().toISOString().split('T')[0]; 
+    res.render("compose", { today }); 
+});
+
+app.post("/compose", async (req, res) => {
+    const newTodo = new Todo({
+        obj: req.body.obj,
+        startingDate: req.body.startingDate,
+        endingDate: req.body.endingDate,
+        priority: req.body.priority,
+        category: req.body.category
+    });
+
+    try {
+        await newTodo.save();
+        res.redirect("/");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error saving todo');
+    }
+});
 
 // Update any redirect or link that refers to this route
 // For example, in your views or redirection after creating a post
