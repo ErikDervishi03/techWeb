@@ -24,7 +24,7 @@ const todoSchema = new mongoose.Schema({
     obj: String,
     startingDate: {type: Date}, 
     endingDate: {type: Date},
-    prioriry: String,
+    priority: String,
     category: String
 });
 
