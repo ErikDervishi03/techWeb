@@ -1,22 +1,8 @@
 <%- include('partials/header'); -%>
 <h1>home</h1>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <% assignment.forEach(assignment => { %>
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">to do : <%= assignment.obj %></h5>
-                <p>priority : <%= assignment.prioriry %></p>
-                <p>category : <%= assignment.category %></p>
-            </div>
-            <div class="card-footer">
-              <small class="text-body-secondary">start date : <%= assignment.startingDate.toDateString() %></small><br>
-              <small class="text-body-secondary">ending date : <%= assignment.endingDate.toDateString() %></small>
-            </div>
-            <button type="button" class="btn btn-outline-info"><a href=""> description</a></button>
-          </div>
-        </div>
-    <% }); %>
-    </div>
+<form class="d-flex position-relative" role="search" id="searchForm">
+    <input class="form-control me-2" type="search" placeholder="add new to do" aria-label="Search" id="searchInput" autocomplete="off">
+    <button class="btn btn-outline-success" type="submit">+</button>
+</form> 
 <%- include('partials/footer'); -%>
 
