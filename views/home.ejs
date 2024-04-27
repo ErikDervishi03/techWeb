@@ -28,7 +28,6 @@
                             <i class="bi bi-search"></i>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a href="/compose" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
                             <i class="bi bi-plus"></i>
@@ -39,18 +38,36 @@
                             <i class="bi-table fs-1"></i>
                         </a>
                     </li>
-
-
                 </ul>
-
             </div>
         </div>
         <div class="col-sm p-3 min-vh-100">
             <!-- content -->
             <h2>TO DO APP</h2>
             <hr />
-            <h3>More content...</h3>
-            <p>piero frocio</p>
+
+            <!-- Display Categories -->
+            
+            <div>
+                <% if (categories && categories.length > 0) { %>
+                    <% categories.forEach(category => { %>
+                        <h3><%= category %>:</h3>
+                        <ul>
+                            <% todosByCategory[category].forEach(todo => { %>
+                                <li>
+                                    <strong>Todo:</strong> <%= todo.obj %><br />
+                                    <strong>Start Date:</strong> <%= todo.startingDate.toLocaleDateString() %><br />
+                                    <strong>End Date:</strong> <%= todo.endingDate.toLocaleDateString() %><br />
+                                    <strong>Priority:</strong> <%= todo.priority %><br />
+                                </li>
+                            <% }); %>
+                            <hr />
+                        </ul>
+                    <% }); %>
+                <% } else { %>
+                    <p>No categories found.</p>
+                <% } %>
+            </div>
         </div>
     </div>
 </div>

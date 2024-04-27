@@ -33,13 +33,25 @@ const Todo = mongoose.model("TODO", todoSchema);
 
 app.get("/", async (req, res) => {
     try {
-        const assignment = await Todo.find({});
-        res.render("home", { assignment });
+        const categories = await Todo.distinct('category');
+        const allTodos = await Todo.find();
+
+        const todosByCategory = {};
+        allTodos.forEach(todo => {
+            if (!todosByCategory[todo.category]) {
+                todosByCategory[todo.category] = [];
+            }
+            todosByCategory[todo.category].push(todo);
+        });
+
+        res.render("home", {todosByCategory, categories }); 
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error fetching assignment');
+        res.status(500).send('Error fetching todos');
     }
 });
+
+
 
 
 app.get("/compose", (req, res) => {
