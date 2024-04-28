@@ -34,8 +34,11 @@ const Todo = mongoose.model("TODO", todoSchema);
 app.get("/", async (req, res) => {
     try {
         const categories = await Todo.distinct('category');
-        const allTodos = await Todo.find();
+        
+        // Fetch all todos and sort by priority
+        const allTodos = await Todo.find().sort({ priority: 1 });
 
+        // Group todos by category
         const todosByCategory = {};
         allTodos.forEach(todo => {
             if (!todosByCategory[todo.category]) {
@@ -44,15 +47,12 @@ app.get("/", async (req, res) => {
             todosByCategory[todo.category].push(todo);
         });
 
-        res.render("home", {todosByCategory, categories }); 
+        res.render("home", { todosByCategory, categories });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching todos');
     }
 });
-
-
-
 
 app.get("/compose", (req, res) => {
     const today = new Date().toISOString().split('T')[0]; 
@@ -80,7 +80,16 @@ app.post("/compose", async (req, res) => {
 // Update any redirect or link that refers to this route
 // For example, in your views or redirection after creating a post
 
-
+app.post("/delete-todo", async (req, res) => {
+    const todoId = req.body.todoId;
+    try {
+        await Todo.findByIdAndDelete(todoId);
+        res.redirect("/");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error deleting todo');
+    }
+});
 
 
 // Listen on default port 3000

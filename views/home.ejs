@@ -11,7 +11,19 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="../public/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <style>
+        #trash{
+            border:none;
+            background-color: #fff;
+            outline: none;
+            cursor:pointer;
+            margin: 0;
+        }
+        #trash:hover{
+            color:red;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -41,31 +53,31 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm p-3 min-vh-100">
+        <div class="col-sm p-3 min-vh-100 ">
             <!-- content -->
-            <h2>TO DO APP</h2>
-            <hr />
-
-            <!-- Display Categories -->
-            
-            <div>
+            <h5 >TO DO APP</h5>
+            <hr /> 
+            <div class="container w-75 p-3">
                 <% if (categories && categories.length > 0) { %>
                     <% categories.forEach(category => { %>
-                        <h3><%= category %>:</h3>
-                        <ul>
-                            <% todosByCategory[category].forEach(todo => { %>
-                                <li>
-                                    <strong>Todo:</strong> <%= todo.obj %><br />
-                                    <strong>Start Date:</strong> <%= todo.startingDate.toLocaleDateString() %><br />
-                                    <strong>End Date:</strong> <%= todo.endingDate.toLocaleDateString() %><br />
-                                    <strong>Priority:</strong> <%= todo.priority %><br />
+                        <h5 style="color:<%= '#' + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, '0')%>;"><strong><%= category %></strong></h5>
+                        <ul class="list-group">
+                            <%
+                                 todosByCategory[category].forEach(todo => { %>
+                                <li class="list-group-item justify-content-between align-items-center d-flex">
+                                    <form id="deleteForm" action="/delete-todo" method="POST">
+                                        <input type="hidden" name="todoId" value="<%= todo._id %>">
+                                        <button type="submit" id="trash"><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                    <span><strong>Todo:</strong> <%= todo.obj %></span>
+                                    <span><strong>Start Date:</strong> <%= todo.startingDate.toLocaleDateString() %></span>
+                                    <span><strong>End Date:</strong> <%= todo.endingDate.toLocaleDateString() %></span>
+                                    <span class="badge badge-primary badge-pill">priority : <%= todo.priority %></span>
                                 </li>
                             <% }); %>
                             <hr />
                         </ul>
                     <% }); %>
-                <% } else { %>
-                    <p>No categories found.</p>
                 <% } %>
             </div>
         </div>
