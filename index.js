@@ -3,11 +3,12 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require('path');
 const _ = require("lodash");
-const cors = require('cors')
+const cors = require('cors');
+
+mongoose.set('strictQuery', false);
 app.use(cors());
 // Set the view engine to EJS
 app.set("view engine", "ejs");
-
 // Middleware for parsing application/x-www-form-urlencoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,10 +34,10 @@ const Todo = mongoose.model("TODO", todoSchema);
 
 app.get("/", async (req, res) => {
     try {
-        const categories = await Todo.distinct('category');
+        let categories = await Todo.distinct('category');
         
         // Fetch all todos and sort by priority
-        const allTodos = await Todo.find().sort({ priority: 1 });
+        let allTodos = await Todo.find().sort({ priority: 1 });
 
         // Group todos by category
         const todosByCategory = {};
@@ -46,6 +47,18 @@ app.get("/", async (req, res) => {
             }
             todosByCategory[todo.category].push(todo);
         });
+
+        // Filtering todos based on search query
+        const searchQuery = req.query.search;
+        if (searchQuery) {
+            if(categories.includes(searchQuery)){
+                categories = [searchQuery];
+            }else{
+                
+                return res.status(404).send(`The category '${searchQuery}' doesn't exist.`);
+            }
+                
+        }
 
         res.render("home", { todosByCategory, categories });
     } catch (error) {
@@ -93,4 +106,4 @@ app.post("/delete-todo", async (req, res) => {
 
 
 // Listen on default port 3000
-app.listen(3000);
+app.listen(4000);

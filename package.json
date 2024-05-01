@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/ErikDervishi03/techWeb#readme",
   "dependencies": {
+    "alert": "^6.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "moongose": "^1.0.0"
+    "moongose": "^1.0.0",
+    "node-popup": "^0.1.14",
+    "popups": "^1.1.3"
   }
 }
