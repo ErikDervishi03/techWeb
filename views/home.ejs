@@ -57,6 +57,17 @@
             <!-- content -->
             <h5 >TO DO APP</h5>
             <hr /> 
+            <!-- Search bar -->
+            <form action="/" method="GET" class="mb-3">
+                <div class="input-group">
+                    <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" id="searchInput" autocomplete="off">
+                    <button class="btn btn-outline-secondary" type="submit" id="search-button"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-outline-secondary" onclick="location.href='/'"><i class="bi bi-x"></i></button>
+                </div>
+            </form>
+
+            
+
             <div class="container w-75 p-3">
                 <% if (categories && categories.length > 0) { %>
                     <% categories.forEach(category => { %>

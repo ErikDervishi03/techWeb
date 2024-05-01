@@ -33,10 +33,10 @@ const Todo = mongoose.model("TODO", todoSchema);
 
 app.get("/", async (req, res) => {
     try {
-        const categories = await Todo.distinct('category');
+        let categories = await Todo.distinct('category');
         
         // Fetch all todos and sort by priority
-        const allTodos = await Todo.find().sort({ priority: 1 });
+        let allTodos = await Todo.find().sort({ priority: 1 });
 
         // Group todos by category
         const todosByCategory = {};
@@ -47,12 +47,20 @@ app.get("/", async (req, res) => {
             todosByCategory[todo.category].push(todo);
         });
 
+        // Filtering todos based on search query
+        const searchQuery = req.query.search;
+        if (searchQuery) {
+            if(categories.includes(searchQuery))
+                categories = [searchQuery];
+        }
+
         res.render("home", { todosByCategory, categories });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching todos');
     }
 });
+
 
 app.get("/compose", (req, res) => {
     const today = new Date().toISOString().split('T')[0]; 
