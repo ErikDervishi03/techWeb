@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
     <title>Todo List</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -37,32 +36,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-auto bg-light sticky-top">
-            <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top">
-                <a href="/" class="d-block p-3 link-dark text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-                    <i class="bi bi-person-circle"></i>
-                </a>
-
-                <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">
-                    <li>
-                        <a href="/" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
-                            <i class="bi bi-house-door-fill"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/compose" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
-                            <i class="bi bi-plus"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
-                            <i class="bi-table fs-1"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <%- include('partials/navbar'); -%>
         <div class="col-sm p-3 min-vh-100 ">
             <!-- content -->
             <h5 ><strong>TO DO APP</strong> <i class="bi bi-check2-circle"></i></h5>
@@ -78,6 +52,15 @@
                     <% categories.forEach(category => { %>
                         <h5 style="color:<%= '#' + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, '0')%>;"><strong><%= category.charAt(0).toUpperCase() + category.slice(1)  %></strong></h5>
                         <ul class="list-group">
+                            <% 
+                                // Sort todos within the current category by descending priority
+                                const sortedTodos = todosByCategory[category].sort((a, b) => {
+                                    // Convert priority strings to numbers for comparison
+                                    const priorityA = parseInt(a.priority);
+                                    const priorityB = parseInt(b.priority);
+                                    return priorityB - priorityA; // Sort in descending order
+                                });
+                            %>
                             <%
                                  todosByCategory[category].forEach(todo => { %>
                                 <li class="list-group-item justify-content-between align-items-center d-flex">
@@ -97,7 +80,12 @@
                             <hr />
                         </ul>
                     <% }); %>
-                <% } %>
+                    <% } else if (categories.length === 0) { %>
+                        <div class="text-center bg-light p-5">
+                            <p class="text-muted"><strong>0 categories found</strong></p>
+                        </div>
+                    <% } %>
+
             </div>
         </div>
     </div>

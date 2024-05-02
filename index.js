@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require('path');
 const _ = require("lodash");
 const cors = require('cors');
+var alert = require('alert');
 
 mongoose.set('strictQuery', false);
 app.use(cors());
@@ -54,8 +55,7 @@ app.get("/", async (req, res) => {
             if(categories.includes(searchQuery)){
                 categories = [searchQuery];
             }else{
-                
-                return res.status(404).send(`The category '${searchQuery}' doesn't exist.`);
+                categories = [];
             }
                 
         }
