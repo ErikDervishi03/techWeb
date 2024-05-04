@@ -28,9 +28,19 @@
             outline: none;
             cursor:pointer;
             margin: 0;
+            background-color: transparent;
         }
         #trash:hover{
             color:red;
+        }
+        #todo:hover{
+            background-color: #bbe4e9;
+        }
+
+        @media (max-width: 768px) {
+            #todo {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -38,7 +48,6 @@
 <div class="container-fluid">
         <%- include('partials/navbar'); -%>
         <div class="col-sm p-3 min-vh-100 ">
-            <!-- content -->
             <h5 ><strong>TO DO APP</strong> <i class="bi bi-check2-circle"></i></h5>
             <hr /> 
             <form action="/" method="GET" class="mb-3">
@@ -53,7 +62,6 @@
                         <h5 style="color:<%= '#' + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, '0')%>;"><strong><%= category.charAt(0).toUpperCase() + category.slice(1)  %></strong></h5>
                         <ul class="list-group">
                             <% 
-                                // Sort todos within the current category by descending priority
                                 const sortedTodos = todosByCategory[category].sort((a, b) => {
                                     // Convert priority strings to numbers for comparison
                                     const priorityA = parseInt(a.priority);
@@ -62,8 +70,8 @@
                                 });
                             %>
                             <%
-                                 todosByCategory[category].forEach(todo => { %>
-                                <li class="list-group-item justify-content-between align-items-center d-flex">
+                            todosByCategory[category].forEach(todo => { %>
+                                <li id="todo" class="list-group-item justify-content-between align-items-center d-flex">
                                     <form id="deleteForm" action="/delete-todo" method="POST">
                                         <input type="hidden" name="todoId" value="<%= todo._id %>">
                                         <button type="submit" id="trash"><i class="bi bi-trash3"></i></button>
@@ -72,20 +80,38 @@
                                     <span><strong>Start:</strong> <%= todo.startingDate.toLocaleDateString() %></span>
                                     <span><strong>End:</strong> <%= todo.endingDate.toLocaleDateString() %></span>
                                     <span class="badge badge-primary badge-pill">priority : <%= todo.priority %></span>
+
+                                    <form id="doneForme" action="/isdone" method="POST">
+                                        <input type="hidden" name="todoId" value="<%= todo._id %>">
+                                        <% if (todo.done) { %>
+                                            <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg"></i></button>
+                                        <% } else { %>
+                                            <button type="submit" class="btn btn-sm"><i class="bi bi-check-lg"></i></button>
+                                        <% } %>
+                                    </form>
+
                                 </li>
+
                             <% }); %>
                                 <li class="justify-content-between align-items-center d-flex">
                                     <span><a href="/compose?category=<%= encodeURIComponent(category) %>"><i class="bi bi-plus"></i></a> add todo</span>
                                 </li>
                             <hr />
                         </ul>
+
                     <% }); %>
+                        <form id="deleteForm" action="/delete-all" method="POST">
+                            <input type="hidden" name="todoId">
+                            <button type="submit" class="btn btn-primary mt-3">clear all</button>
+                        </form>
                     <% } else if (categories.length === 0) { %>
                         <div class="text-center bg-light p-5">
                             <p class="text-muted"><strong>0 categories found</strong></p>
                         </div>
                     <% } %>
 
+
+                
             </div>
         </div>
     </div>

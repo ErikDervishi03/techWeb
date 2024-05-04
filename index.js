@@ -27,7 +27,8 @@ const todoSchema = new mongoose.Schema({
     startingDate: {type: Date}, 
     endingDate: {type: Date},
     priority: String,
-    category: String
+    category: String,
+    done : { type: Boolean, default: false }
 });
 
 
@@ -38,7 +39,7 @@ app.get("/", async (req, res) => {
         let categories = await Todo.distinct('category');
         
         // Fetch all todos and sort by priority
-        let allTodos = await Todo.find().sort({ priority: 1 });
+        let allTodos = await Todo.find();
 
         // Group todos by category
         const todosByCategory = {};
@@ -56,8 +57,7 @@ app.get("/", async (req, res) => {
                 categories = [searchQuery];
             }else{
                 categories = [];
-            }
-                
+            }      
         }
 
         res.render("home", { todosByCategory, categories });
@@ -78,7 +78,8 @@ app.post("/compose", async (req, res) => {
         startingDate: req.body.startingDate,
         endingDate: req.body.endingDate,
         priority: req.body.priority,
-        category: req.body.category
+        category: req.body.category,
+        done : false
     });
 
     try {
@@ -89,6 +90,7 @@ app.post("/compose", async (req, res) => {
         res.status(500).send('Error saving todo');
     }
 });
+
 
 // Update any redirect or link that refers to this route
 // For example, in your views or redirection after creating a post
@@ -105,5 +107,32 @@ app.post("/delete-todo", async (req, res) => {
 });
 
 
+
+app.post("/delete-all", async (req, res) => {
+    try {
+        await Todo.deleteMany({});
+        res.redirect("/");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error deleting todo');
+    }
+});
+
+app.post("/isdone", async (req, res) => {
+    const todoId = req.body.todoId;
+    try {
+        const todo = await Todo.findById(todoId);
+
+        todo.done = !todo.done;
+        
+        await todo.save();
+
+        res.redirect("/");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error deleting todo');
+    }
+});
+
 // Listen on default port 3000
-app.listen(4000);
+app.listen(3000);
