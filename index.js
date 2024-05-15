@@ -134,5 +134,26 @@ app.post("/isdone", async (req, res) => {
     }
 });
 
+app.get("/pomodoro", async (req, res) => {
+    res.render("pomodoro");
+});
+
+app.get("/pomodoroiframe", async (req, res) => {
+    res.render("pomodoroiframe");
+});
+
+app.get("/studyForm", async (req, res) => {
+    event.preventDefault();
+
+    if(!onGoing) {
+        studyTime = parseInt(document.getElementById('studyTime').value, 10);
+        breakTime = parseInt(document.getElementById('breakTime').value, 10);
+        cycles = parseInt(document.getElementById('cycles').value, 10);
+        ready = true;
+    }
+    document.getElementById('minutes').innerHTML = studyTime;
+    document.getElementById('seconds').innerHTML = seconds;
+});
+
 // Listen on default port 3000
 app.listen(3000);

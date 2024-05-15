@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pomodoro Timer</title>
+
+        <!-- FONT -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+        <!-- ICONS -->
+        <script src="https://kit.fontawesome.com/6f3103b13c.js" crossorigin="anonymous"></script>
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
+    <body>
+        <%- include('partials/css_pomodoro.ejs'); -%>
+        <form id="studyForm">
+            <p id="title">Pomodoro Study Session</p>
+            <p id="subtitle">Insert the parameters!</p>
+
+            <div class="ic ictop">
+                <label for="studyTime">Study Time</label>
+                <input type="number" id="studyTime" name="studyTime" min="1" placeholder='Study Time' required>
+            </div>
+
+            <div class="ic icmid">
+                <label for="breakTime">Break Time</label>
+                <input type="number" id="breakTime" name="breakTime" min="1" placeholder='Break Time' required>
+            </div>
+
+            <div class="ic icmid">
+                <label for="cycles">Cycles</label>
+                <input type="number" id="cycles" name="cycles" min="1" placeholder='Cycles' required>
+            </div>
+
+            <button type="submit" class="submit">Start Studying</button>
+            <button type="reset" class="reset">Reset</button>
+        </form>
+
+        <div id="container">
+            <div id="disp"></div>
+  
+            <div id="clock" class="blob">
+                <div class="timer">
+                    <div id="circleTimer"></div>
+                    <div id="circle">
+                        
+                        <div id="minutes">00</div>
+                        :
+                        <div id="seconds">00</div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="start" onclick="start()"><i class="fa-solid fa-play"></i></button>
+
+                <a id="reset" href="/pomodoroiframe"><i class="fa-solid fa-arrow-rotate-left"></i></a>
+            </div>
+        </div>
+        
+    </body>
+</html>
